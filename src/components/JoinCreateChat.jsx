@@ -2,13 +2,16 @@ import { useState } from "react"
 import ChatIcon from "../assets/chat.png"
 import toast from "react-hot-toast"
 import { createRoomService } from "../services/RoomService"
+import useChatContext from "../context/ChatContext"
 
 const JoinCreateChat = () => {
 
   const [detail, setDetail]=useState({
-      roomId:'7686',
-      userName:'kol',
+      roomId:'',
+      userName:'',
   })
+
+  const {roomId,currentUser,setRoomId,setCurrentUser} = useChatContext();
 
   function handleFormInputChange(event){
     setDetail({
@@ -42,6 +45,8 @@ const JoinCreateChat = () => {
         console.log(response);
         toast.success("room created successfully !!")
         //join the room
+        setCurrentUser(detail.userName);
+        setRoomId(response.data.roomId);
         joinChat();
       } catch (error) {
         console.log(error);
